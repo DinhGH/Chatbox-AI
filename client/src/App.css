@@ -1,0 +1,24 @@
+@import "tailwindcss";
+#root {
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  width: 8px; /* độ rộng của scrollbar */
+  height: 8px; /* dùng cho scroll ngang */
+}
+
+::-webkit-scrollbar-track {
+  background: #f3f3f3; /* màu nền track */
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #5a5a5a; /* màu thanh kéo */
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444444; /* hover đậm hơn */
+}
