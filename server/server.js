@@ -11,6 +11,8 @@ const PORT = process.env.PORT || 5000;
 app.use(
   cors({
     origin: true,
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"],
     credentials: true,
   })
 );
