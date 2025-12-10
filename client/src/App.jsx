@@ -2,8 +2,34 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const API_BASE = import.meta.env.URL || "http://localhost:5000";
 const CHAT_ENDPOINT = `${API_BASE}/api/chat`;
+
+const formatMessage = (text) => {
+  // Replace **bold** and *bold* with <strong> tags
+  let formatted = text
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*(.+?)\*/g, "<strong>$1</strong>");
+
+  // Format numbered lists (1. 2. 3. etc.)
+  formatted = formatted.replace(
+    /(\d+)\.\s+(.+?)(?=\d+\.|\n\n|$)/gs,
+    (match, num, content) => {
+      return `<div style="margin-bottom: 0.5rem;"><span style="font-weight: 600; margin-right: 0.5rem;">${num}.</span>${content.trim()}</div>`;
+    }
+  );
+
+  // Format bullet points (- or •)
+  formatted = formatted.replace(
+    /^[•-]\s+(.+)$/gm,
+    '<div style="margin-left: 1rem; margin-bottom: 0.5rem;">• $1</div>'
+  );
+
+  // Preserve line breaks
+  formatted = formatted.replace(/\n/g, "<br/>");
+
+  return formatted;
+};
 
 export default function App() {
   const [messages, setMessages] = useState([
@@ -84,8 +110,8 @@ export default function App() {
         <header className="bg-linear-to-r from-zinc-900 to-black px-6 py-4 border-b border-zinc-700/50">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-xl font-bold text-black">
-                🤖
+              <div className="w-12 h-12 bg-[#2e2e2e] rounded-lg flex items-center justify-center text-xl font-bold text-black">
+                <img src="/vite.png" alt="DinhAI Logo" className="w-8 h-8" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-white">DinhAI Pro</h1>
@@ -125,9 +151,8 @@ export default function App() {
                     ? "bg-white text-black rounded-br-sm"
                     : "bg-zinc-800 border border-zinc-700 text-zinc-100 rounded-bl-sm"
                 }`}
-              >
-                {msg.content}
-              </div>
+                dangerouslySetInnerHTML={{ __html: formatMessage(msg.content) }}
+              />
 
               {msg.role === "user" && (
                 <div className="w-9 h-9 rounded-lg bg-white flex items-center justify-center text-base">
