@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const API_BASE = import.meta.env.URL || "http://localhost:5000";
 const CHAT_ENDPOINT = `${API_BASE}/api/chat`;
 
 const formatMessage = (text) => {
